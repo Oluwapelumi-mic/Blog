@@ -1,25 +1,39 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import BlogList from "./BlogList";
 import AddBlog from './AddBlog';
+import { uuid } from 'uuidv4';
+
+const LOCAL_STORAGE_KEY = "blogs"; // Define the key here before using it in the component
 
 const Home = () => {
-    const [blogs, setBlogs] = useState([
-        { title: 'My React Journey', body: 'stuffs', author: 'Adedeji', id: 1 },
-        { title: 'My Django Documentation', body: 'stuffs', author: 'Iyere', id: 2 },
-        { title: 'Full Stack at last!', body: 'stuffs', author: 'Adedeji', id: 3 },
-    ]);
+  const [blogs, setBlogs] = useState(() => {
+    // Retrieve data from localStorage on initial mount, or use a default empty array if localStorage is empty or data is not available.
+    const storedBlogs = JSON.parse(localStorage.getItem(LOCAL_STORAGE_KEY));
+    return storedBlogs || [];
+  });
 
-    const addBlogHandler = (newBlog) => {
-        console.log(newBlog);
-        setBlogs([...blogs, newBlog]);
-    };
+  const addBlogHandler = (blog) => {
+    console.log(blog);
+    setBlogs([...blogs,{id:uuid(), ...blogs}]);
+  };
+  const removeBlogHandler = (id) => {
+    const newBlogList = blogs.filter((blog) =>{
+      return blog.id !== id ;
+    });
+    setBlogs(newBlogList);
+  };
 
-    return (
-        <div className="home">
-            <BlogList blogs={blogs} title="All Blogs" />
-            <AddBlog addBlogHandler={addBlogHandler} />
-        </div>
-    );
+  useEffect(() => {
+    localStorage.setItem(LOCAL_STORAGE_KEY, JSON.stringify(blogs));
+  }, [blogs]);
+
+
+  return (
+    <div className="home">
+      <BlogList blogs={blogs} title="All Blogs" getBlogId={removeBlogHandler} />
+      <AddBlog addBlogHandler={addBlogHandler} />
+    </div>
+  );
 }
 
 export default Home;

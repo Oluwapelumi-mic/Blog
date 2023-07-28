@@ -1,5 +1,4 @@
 import React, { useState } from "react";
-
 const AddBlog = (props) => {
   const [title, setTitle] = useState("");
   const [body, setBody] = useState("");
@@ -18,7 +17,7 @@ const AddBlog = (props) => {
   };
 
   return (
-    <div className="newBlog">
+    <div className="Blog">
       <div className="ui main">
         <h2 style={{ color: "black" }}> Add Blog</h2>
         <form className="ui form" onSubmit={add}>

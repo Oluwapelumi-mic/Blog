@@ -6,6 +6,7 @@ import Navbar from './Navbar';
 
 function App() {
   const title = 'Welcome to Iyere Blog';
+  
 
 
 
@@ -15,7 +16,7 @@ function App() {
       <Navbar  />
       <div className='content'>
         <h1>{ title }</h1>
-        <Home />
+        <Home /> 
       </div>
     </div>
   );
